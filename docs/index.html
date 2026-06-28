@@ -96,8 +96,23 @@ body{
 }
 
 @media (max-width: 720px){
-  .heart-nav{ top:auto; bottom:16px; left:12px; right:12px; transform:none; justify-content:space-between; overflow-x:auto; }
-  .heart-nav button{ padding:8px 10px; font-size:.66rem; }
+  .heart-nav{
+    top:auto; bottom:0; left:0; right:0;
+    transform:none;
+    justify-content:space-between;
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius:0;
+    border:none;
+    border-top: 1px solid rgba(255,143,171,.35);
+    padding: 8px max(8px, env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-right));
+    gap:2px;
+  }
+  .heart-nav button{ padding:8px 9px; font-size:.64rem; flex:1 1 auto; text-align:center; }
+}
+
+@media (max-width: 380px){
+  .heart-nav button{ font-size:.58rem; padding:7px 6px; }
 }
 
 /* ---------- page shell ---------- */
@@ -108,6 +123,10 @@ body{
   padding: 120px 6vw 160px;
 }
 .page.active{ display:flex; }
+
+@media (max-width: 720px){
+  .page{ padding: 36px 5vw 90px; }
+}
 
 .page.page-enter{
   animation: pageTwistIn .65s var(--ease-bounce) both;
@@ -172,6 +191,10 @@ h1.title .gold{ color: var(--gold); }
 .btn.secondary{ background: transparent; color: var(--cream); border: 2px solid var(--blush); box-shadow:none; }
 .btn.secondary:hover{ background: rgba(255,143,171,.15); }
 
+@media (max-width: 480px){
+  .btn{ padding: 14px 24px; font-size:.92rem; }
+}
+
 /* ---------- card ---------- */
 .card{
   background: rgba(255,247,240,.06);
@@ -179,6 +202,9 @@ h1.title .gold{ color: var(--gold); }
   border-radius: 28px; padding: 32px;
   backdrop-filter: blur(10px);
   box-shadow: 0 20px 50px rgba(0,0,0,.3);
+}
+@media (max-width: 480px){
+  .card{ padding: 22px 18px; border-radius: 22px; }
 }
 
 .signature{ font-family: var(--hand); font-size: 1.4rem; color: var(--blush); text-align:center; margin-top: 60px; }
@@ -220,22 +246,28 @@ h1.title .gold{ color: var(--gold); }
 .flip-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 26px; width:100%; max-width: 940px; margin-top: 20px; }
 @media (max-width:720px){ .flip-grid{ grid-template-columns:1fr; } }
 
-.flip-card{ perspective: 1200px; height: 220px; }
+.flip-card{ perspective: 1200px; height: 240px; }
 .flip-inner{
   position:relative; width:100%; height:100%; transform-style: preserve-3d;
   transition: transform .7s var(--ease-bounce); cursor:pointer;
 }
-.flip-card:hover .flip-inner, .flip-card:focus-within .flip-inner{ transform: rotateY(180deg); }
+.flip-card:hover .flip-inner, .flip-card:focus-within .flip-inner, .flip-card.flipped .flip-inner{ transform: rotateY(180deg); }
 .flip-face{
   position:absolute; inset:0; backface-visibility:hidden; border-radius:24px;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; padding: 24px;
+  text-align:center; padding: 20px;
 }
 .flip-front{ background: linear-gradient(150deg, var(--violet-soft), var(--violet)); border: 1px solid rgba(255,255,255,.15); }
 .flip-front .num{ font-family:var(--display); color:var(--gold); font-size:.85rem; margin-bottom:8px; letter-spacing:1px; }
 .flip-front .prompt{ font-family:var(--display); font-size:1.2rem; color:var(--cream); }
 .flip-back{ background: linear-gradient(150deg, var(--blush), var(--peach)); transform: rotateY(180deg); color: var(--plum); }
-.flip-back p{ font-family: var(--hand); font-size:1.5rem; line-height:1.3; }
+.flip-back p{ font-family: var(--hand); font-size:1.4rem; line-height:1.3; }
+
+@media (max-width: 480px){
+  .flip-card{ height: 230px; }
+  .flip-back p{ font-size:1.15rem; line-height:1.28; }
+  .flip-front .prompt{ font-size:1.05rem; }
+}
 
 /* ===================== MEMORY LANE PAGE ===================== */
 .timeline{ position:relative; width:100%; max-width: 760px; margin-top: 30px; }
@@ -261,6 +293,7 @@ h1.title .gold{ color: var(--gold); }
   .timeline::before{ left:18px; }
   .t-item, .t-item:nth-child(even){ width:100%; left:0; text-align:left; padding-left:46px; padding-right:10px; }
   .t-item .dot, .t-item:nth-child(even) .dot{ left:9px; right:auto; }
+  .t-item .t-card{ max-width: 100%; }
 }
 .t-item.reveal, .t-item:nth-child(even).reveal{ transform: translateY(60px) scale(.92); }
 .t-item.reveal.in{ transform: translateY(0) scale(1); }
@@ -273,6 +306,9 @@ h1.title .gold{ color: var(--gold); }
   background: linear-gradient(150deg, var(--peach), var(--gold));
   border-radius: 28px; padding: 30px; box-shadow: 0 18px 40px rgba(0,0,0,.3);
   transform: rotate(-1deg);
+}
+@media (max-width: 480px){
+  .joke-box{ font-size: 1.25rem; padding: 22px; line-height:1.4; min-height:160px; }
 }
 .joke-box.shake{ animation: shake .5s; }
 @keyframes shake{
@@ -335,6 +371,10 @@ h1.title .gold{ color: var(--gold); }
 .letter-card p:first-of-type::first-letter{
   font-family: var(--display); font-size: 2.6rem; color: var(--gold);
   float:left; line-height:1; padding-right:8px;
+}
+@media (max-width: 480px){
+  .letter-card p{ font-size:.98rem; line-height:1.7; }
+  .letter-card p:first-of-type::first-letter{ font-size:2.1rem; }
 }
 
 /* ===================== SURPRISE PAGE ===================== */
@@ -725,6 +765,11 @@ function nextJoke(){
   box.classList.remove('shake');
   requestAnimationFrame(()=> box.classList.add('shake'));
 }
+/* ---------- flip cards: reliable tap-to-flip on touch devices ---------- */
+document.querySelectorAll('.flip-card').forEach(card=>{
+  card.addEventListener('click', ()=> card.classList.toggle('flipped'));
+});
+
 document.getElementById('jokeBtn').addEventListener('click', nextJoke);
 
 /* ---------- envelope open (Letter page) ---------- */
