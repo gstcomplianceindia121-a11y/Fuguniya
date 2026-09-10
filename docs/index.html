@@ -334,12 +334,16 @@
             gap: 1.6rem;
         }
 
-        @media (max-width: 680px) {
-            .flip-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.1rem;
-            }
-        }
+      @media (max-width: 680px) {
+    .flip-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+    }
+
+    .flip-card {
+        height: 190px;
+    }
+}
 
         .flip-card {
             perspective: 1200px;
@@ -354,10 +358,16 @@
             transform-style: preserve-3d;
         }
 
-        .flip-card:hover .flip-inner,
         .flip-card.flipped .flip-inner {
-            transform: rotateY(180deg);
-        }
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+}
+        @media (hover: hover) and (pointer: fine) {
+    .flip-card:hover .flip-inner {
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg);
+    }
+}
 
         .flip-front,
         .flip-back {
