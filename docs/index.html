@@ -472,6 +472,11 @@
             gap: 1.4rem;
             align-items: flex-start;
             padding: 1.8rem 2rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .promise-item:last-child {
+            margin-bottom: 0;
         }
 
         .promise-item .num {
@@ -533,7 +538,7 @@
             display: none;
             width: min(300px, 80vw);
             aspect-ratio: 9/16;
-            margin: 0 auto;
+            margin: 2.4rem auto 0;
             border-radius: 28px;
             overflow: hidden;
             border: 3px solid var(--glass-line);
@@ -563,6 +568,71 @@
             height: 100%;
             object-fit: cover;
             display: block;
+        }
+
+        .reel-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .surprise-divider {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--gold);
+            opacity: 0.85;
+            margin: 3.4rem auto 3rem;
+            max-width: 400px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .surprise-divider::before,
+        .surprise-divider::after {
+            content: "✦";
+            display: block;
+            font-size: 0.9rem;
+            color: var(--pink);
+            opacity: 0.7;
+            margin: 0.8rem 0;
+        }
+
+        .photo-reveal {
+            width: 190px;
+            margin: 0 auto;
+            padding: 1.6rem 1rem;
+            border-radius: 20px;
+            background: var(--glass);
+            border: 1px dashed var(--glass-line);
+            backdrop-filter: blur(14px);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            transition: transform 0.3s cubic-bezier(.34, 1.56, .64, 1), border-color 0.3s ease;
+        }
+
+        .photo-reveal:hover {
+            transform: scale(1.05);
+            border-color: var(--gold);
+        }
+
+        .photo-reveal.opened {
+            display: none;
+        }
+
+        .photo-reveal-icon {
+            font-size: 2.2rem;
+        }
+
+        .photo-reveal span {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--gold);
         }
 
         /* ---------- finale: unlock button + confetti burst ---------- */
@@ -821,12 +891,22 @@
                 <div class="kicker">ek chhota sa surprise</div>
                 <h2>Ye gift box khol na, jaanu</h2>
             </div>
-            <div class="gift-box" id="giftBox" onclick="openGift()">🎁</div>
+            <div class="gift-box" id="giftBox" onclick="openGift()" style="margin-top: 1rem;">🎁</div>
             <div class="reel-frame" id="reelFrame">
                 <video id="reelVideo" controls playsinline preload="metadata">
                     <source src="Video-30511.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+            </div>
+
+            <p class="surprise-divider">ek aur cheez hai jo tere liye sambhal ke rakhi thi 🤍</p>
+
+            <div class="photo-reveal" id="giftBox2" onclick="openGift2()">
+                <div class="photo-reveal-icon">📸</div>
+                <span>tap to see a photo</span>
+            </div>
+            <div class="reel-frame" id="imageFrame">
+                <img src="gungun.png" alt="surprise photo">
             </div>
         </div>
     </section>
@@ -893,6 +973,31 @@
             vid.load();
             vid.play().catch(() => { });
             // little confetti burst around the box
+            const rect = frame.getBoundingClientRect();
+            const emojis = ['💗', '✨', '🎉'];
+            for (let i = 0; i < 18; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti-piece';
+                c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 100 + Math.random() * 180;
+                const dx = Math.cos(angle) * dist, dy = Math.sin(angle) * dist;
+                c.style.left = (rect.left + rect.width / 2) + 'px';
+                c.style.top = (rect.top + 10) + 'px';
+                document.body.appendChild(c);
+                c.animate([
+                    { transform: 'translate(0,0) scale(0.6)', opacity: 1 },
+                    { transform: `translate(${dx}px, ${dy}px) scale(1)`, opacity: 0 }
+                ], { duration: 1000 + Math.random() * 500, easing: 'cubic-bezier(.2,.8,.3,1)' });
+                setTimeout(() => c.remove(), 1600);
+            }
+        }
+
+        // second surprise: image reveal
+        function openGift2() {
+            document.getElementById('giftBox2').classList.add('opened');
+            const frame = document.getElementById('imageFrame');
+            frame.classList.add('shown');
             const rect = frame.getBoundingClientRect();
             const emojis = ['💗', '✨', '🎉'];
             for (let i = 0; i < 18; i++) {
